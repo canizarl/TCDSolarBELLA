@@ -1,65 +1,51 @@
 # Author: L Alberto Canizares canizares (at) cp.dias.ie
-from datetime import datetime, timedelta
 # some_file.py
 import sys
-import os
+from datetime import datetime
+
 sys.path.insert(1, '/Users/canizares/Library/CloudStorage/OneDrive-Personal/Work/0_PhD/Projects/BELLA_Projects/TCDSolarBELLA')
 
-import astropy.units as u
-from astropy.visualization import ImageNormalize, PercentileInterval
-
-import numpy as np
-from scipy import stats
-from scipy.optimize import curve_fit
-from scipy.interpolate import interp1d, UnivariateSpline
-from scipy.interpolate import CubicSpline
-from numpy import interp
-import pyspedas
-from pytplot import get_data
-
-from astropy.time import Time
-from astropy.io import fits
 import matplotlib as mpl
-
+import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib.colors import LogNorm
+
+import astropy.units as u
+from astropy.visualization import ImageNormalize
+
 plt.rcParams.update({'font.size': 18})
 plt.rcParams.update({'font.family': "Times New Roman"})
 
-from matplotlib.ticker import FormatStrFormatter,LogFormatter
 from matplotlib.dates import DateFormatter
+from matplotlib.ticker import FormatStrFormatter
 
-from datetime import datetime
-from datetime import timedelta
+from astropy.constants import R_sun, au
 
-from astropy.constants import c, m_e, R_sun, e, eps0, au
 r_sun = R_sun.value
 AU=au.value
 
-from sunpy.net import Fido, attrs as a
+import importlib
 
-from radiospectra import net #let Fido know about the radio clients
-from radiospectra.spectrogram import Spectrogram # in the process of updating old spectrogram
+from radiospectra.spectrogram import Spectrogram  # in the process of updating old spectrogram
+
+from sunpy.net import attrs as a
+
+from bella.type_III_fitter import dynspec, openmarsis
+from bella.type_III_fitter import typeIIIfitter as t3f
+from bella.type_III_fitter.psp_quicklook import rfs_spec
+from bella.type_III_fitter.solo_quicklook_L3_data import open_rpw_l3
 
 # from spacepy import pycdf
 
 # from rpw_mono.thr.hfr.reader import read_hfr_autoch
 
-from bella.type_III_fitter import typeIIIfitter as t3f
 
-from bella.type_III_fitter import dynspec
-from bella.type_III_fitter.psp_quicklook import rfs_spec
-from bella.type_III_fitter.solo_quicklook_L3_data import open_rpw_l3
-from bella.type_III_fitter import openmarsis
 
-import importlib
 importlib.reload(t3f)
 importlib.reload(dynspec)
 
 # from maser.data import Data
-import solarmap
 import pickle
-import os
 import argparse
 
 
@@ -130,7 +116,7 @@ if __name__=="__main__":
     showfigs = True
 
     sat_hist = False    # Saturated histograms
-    
+
     stokesV = True
     leadingedge = True
     backbone = False
@@ -216,7 +202,7 @@ if __name__=="__main__":
         profile += "_BB"
     if trailingedge:
         profile += "_TE"
-    profile = profile[1:]  # remove underscore from begining
+    profile = profile[1:]  # remove underscore from beginning
 
     note_str = "BURST_A"    # This particular timeframe shows two type IIIs. Burst A is the earlier one. Burst B is the later one.
     figdir = t3f.mkdirectory(f"Figures/{YYYY}_{MM:02}_{dd:02}/{profile}")
@@ -283,7 +269,7 @@ if __name__=="__main__":
         # FILL BLANK GAP
         freqs_fill = [waves_spec_lfr.frequencies[-1].value, waves_spec_hfr.frequencies[0].value]* u.MHz
         meta = {
-            'observatory': f"WIND_fill",
+            'observatory': "WIND_fill",
             'instrument': "WAVES_fill",
             'detector': "RAD2",
             'freqs': freqs_fill,
@@ -823,7 +809,7 @@ if __name__=="__main__":
     if leadingedge == True:
         print("Leading edge fitting. \n ---------- \n")
 
-                
+
         if windsc:
             #  Wind
             wavesrisetimes_LE =  list(waves_risetimes_l_LE) + list(waves_risetimes_h_LE)
@@ -840,7 +826,7 @@ if __name__=="__main__":
             swaves_a_testfreq_LE = list(swaves_a_testfreq_h_LE) + list(swaves_a_testfreq_l_LE)
 
             times4tri_swaves_a_LE_dt, fitfreqs_swaves_a_LE, fittimes_corrected_swaves_a_LE =  t3f.typeIIIfitting(swaves_a_risetimes_LE,
-                                                                                                   swaves_a_testfreq_LE, 
+                                                                                                   swaves_a_testfreq_LE,
                                                                                                    fitfreqs, freqs4tri,
                                                                                                    plot_residuals=False)
         if stebsc:
@@ -1603,16 +1589,14 @@ if __name__=="__main__":
 
     report_cadences = f"""
     Report CADENCES
-    Wind: 
+    Wind:
         lfr:{dynspec.check_spectro_cadence(waves_spec_lfr).total_seconds()}s
         hfr:{dynspec.check_spectro_cadence(waves_spec_lfr).total_seconds()}s
     STEREO:
-    
+
     """
 
     for each in conditions:
         print(f"{each[1]}:")
         for spec in each[2]:
             print(f"{dynspec.check_spectro_cadence(spec).total_seconds()}s")
-
-

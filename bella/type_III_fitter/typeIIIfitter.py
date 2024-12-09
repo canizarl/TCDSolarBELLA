@@ -2,19 +2,14 @@
 
 import os
 
-import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy.optimize import fsolve
-from scipy.special import wofz
 
 ln2 = np.log(2)
 PI = np.pi
-from math import sqrt
 from datetime import datetime
 
 from scipy.optimize import curve_fit
-
 
 ##########################################################################
 #               Type III fitting functions
@@ -169,7 +164,3 @@ def find_nearest(array, value):
 def f_to_angs(f_mhz,c=299792458):
     angstrom = (c / (f_mhz * 10 ** 6)) * 10 ** 10
     return angstrom
-
-
-
-
