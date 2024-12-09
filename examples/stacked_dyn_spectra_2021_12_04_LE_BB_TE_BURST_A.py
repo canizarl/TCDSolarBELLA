@@ -187,7 +187,7 @@ if __name__=="__main__":
     psp_cad_comp = 0
     mex_cad_comp = 0
 
-    local_data_dir = "/Users/canizares/Library/CloudStorage/OneDrive-Personal/Work/0_PhD/Projects/BELLA_Projects/2021_12_04"
+    local_data_dir = "/Users/canizares/Library/CloudStorage/OneDrive-Personal/Work/0_PhD/Projects/BELLA_Projects/2021_12_04" # Path to data directory
 
     # Wind Spacecraft LOCAL DATA ON or OFF
     wind_local = True
