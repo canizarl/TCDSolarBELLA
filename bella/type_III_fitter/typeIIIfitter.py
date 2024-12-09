@@ -1,10 +1,5 @@
 #!/usr/bin/env python
-# ------------------------------------------------------------
-# Script which demonstrates how to find the best-fit
-# parameters of a Gauss-Hermite line shape model
-#
-# Vog, 26 Mar 2012
-# ------------------------------------------------------------
+
 import os
 
 import matplotlib.dates as mdates
