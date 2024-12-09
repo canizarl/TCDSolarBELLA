@@ -18,7 +18,7 @@ import numpy as np
 import pymc3 as pm
 import solarmap
 # Local imports
-from bayes_positioner import *
+from bella.multilaterate.bayes_positioner import *
 from scipy.ndimage import median_filter
 
 from astropy.constants import R_sun, au, c

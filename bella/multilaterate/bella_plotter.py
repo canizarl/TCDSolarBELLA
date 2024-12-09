@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import scipy.io
 import solarmap
-from bayes_positioner import *
+from bella.multilaterate.bayes_positioner import *
 from matplotlib import cm
 from matplotlib.ticker import FormatStrFormatter, LogFormatter
 # import pymc3 as pm

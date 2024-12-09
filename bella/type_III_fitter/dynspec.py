@@ -91,7 +91,7 @@ def waves_spec(start, endt,datatype="RAD1", bg_subtraction=False, lighttravelshi
     return waves_spec
 
 def local_waves_spec_l2_60s(file, datatype='RAD1', kind='SMEAN', bg_subtraction=False, lighttravelshift=0):
-    from read_wi_wa_l2_60s_data import read_l2_60s  # This file can be found at https://cdpp-archive.cnes.fr/
+    from bella.type_III_fitter.read_wi_wa_l2_60s_data import read_l2_60s  # This file can be found at https://cdpp-archive.cnes.fr/
     header, data = read_l2_60s(file)
 
     frequencies = data['FKHZ']

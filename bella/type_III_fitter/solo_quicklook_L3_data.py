@@ -1,6 +1,6 @@
 import datetime as dt
 
-import dynspec
+from bella.type_III_fitter import dynspec
 import matplotlib as mpl
 from matplotlib import pyplot as plt
 from radiospectra.spectrogram import Spectrogram
@@ -13,8 +13,6 @@ from sunpy.net import attrs as a
 
 plt.rcParams.update({'font.size': 22})
 plt.rcParams.update({'font.family': "Times New Roman"})
-
-
 
 # def open_rpw_l3(cdf_file_path, bg_subtraction=False, lighttravelshift=0):
 #     #CDFLIB reads Epoch inccorrectly. DO NOT USE CDFLIB with solo data
