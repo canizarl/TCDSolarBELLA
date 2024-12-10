@@ -5,12 +5,14 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 
-ln2 = np.log(2)
-PI = np.pi
 from datetime import datetime
 
 from scipy.optimize import curve_fit
 
+
+
+ln2 = np.log(2)
+PI = np.pi
 ##########################################################################
 #               Type III fitting functions
 ##########################################################################
@@ -37,14 +39,11 @@ def typeIII_func(times, popt, pcov, xref, num=100):
 def log_func(x,a,b,c):
     return (-1/b) * np.log((x-c)/a)
 
-def exponential_func(x, a, b, c):
-    return a * np.exp(-b * x) + c
-
-def exponential_func2(x, a, b, c,d):
-    return a * np.exp((-b * x) + d) + c
-
 def log_func2(x,a,b,c,d):
     return (1/b) * (d - np.log((x-c)/a))
+
+def exponential_func(x, a, b, c):
+    return a * np.exp(-b * x) + c
 
 def exponential_func2(x, a, b, c,d):
     return a * np.exp((-b * x) + d) + c
@@ -106,7 +105,7 @@ def typeIIIfitting(risetimes,testfreq, fitfreqs,freqs4tri, plot_residuals=False)
     fittimes_for_residuals = reciprocal_2ndorder(np.array(testfreq), *popt)
     residuals = np.subtract(xdata, fittimes_for_residuals)
 
-    if plot_residuals == True:
+    if plot_residuals is True:
         plt.figure()
         plt.plot(residuals, "r.")
         plt.title("residuals WAVES LEADING EDGE")

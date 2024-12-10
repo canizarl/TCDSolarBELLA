@@ -1,9 +1,10 @@
 # Author: L Alberto Canizares canizares (at) cp.dias.ie
 # some_file.py
 import sys
-from datetime import datetime
-
 sys.path.insert(1, '/Users/canizares/Library/CloudStorage/OneDrive-Personal/Work/0_PhD/Projects/BELLA_Projects/TCDSolarBELLA')
+
+
+from datetime import datetime
 
 import matplotlib as mpl
 import numpy as np
@@ -13,16 +14,12 @@ from matplotlib.colors import LogNorm
 import astropy.units as u
 from astropy.visualization import ImageNormalize
 
-plt.rcParams.update({'font.size': 18})
-plt.rcParams.update({'font.family': "Times New Roman"})
 
 from matplotlib.dates import DateFormatter
 from matplotlib.ticker import FormatStrFormatter
 
 from astropy.constants import R_sun, au
 
-r_sun = R_sun.value
-AU=au.value
 
 import importlib
 
@@ -34,20 +31,21 @@ from bella.type_III_fitter import dynspec, openmarsis
 from bella.type_III_fitter import typeIIIfitter as t3f
 from bella.type_III_fitter.psp_quicklook import rfs_spec
 from bella.type_III_fitter.solo_quicklook_L3_data import open_rpw_l3
-
 # from spacepy import pycdf
-
 # from rpw_mono.thr.hfr.reader import read_hfr_autoch
+# from maser.data import Data
 
-
+import pickle
+import argparse
 
 importlib.reload(t3f)
 importlib.reload(dynspec)
 
-# from maser.data import Data
-import pickle
-import argparse
+r_sun = R_sun.value
+AU=au.value
 
+plt.rcParams.update({'font.size': 18})
+plt.rcParams.update({'font.family': "Times New Roman"})
 
 def reverse_colourmap(cmap, name='my_cmap_r'):
     """
@@ -150,18 +148,35 @@ if __name__=="__main__":
         for sc in args.spacecraft:
             spacecraft.append(sc.lower())
 
-        if "wind" in spacecraft:windsc=True
-        else:windsc=False
-        if "stereo_a" in spacecraft:steasc=True
-        else:steasc=False
-        if "stereo_b" in spacecraft:stebsc=True
-        else:stebsc=False
-        if "solo" in spacecraft:solosc=True
-        else:solosc=False
-        if "psp" in spacecraft:pspsc=True
-        else:pspsc=False
-        if "mex" in spacecraft:mexsc=True
-        else:mexsc=False
+        if "wind" in spacecraft:
+            windsc=True
+        else:
+            windsc=False
+
+        if "stereo_a" in spacecraft:
+            steasc=True
+        else:
+            steasc=False
+
+        if "stereo_b" in spacecraft:
+            stebsc=True
+        else:
+            stebsc=False
+
+        if "solo" in spacecraft:
+            solosc=True
+        else:
+            solosc=False
+
+        if "psp" in spacecraft:
+            pspsc=True
+        else:
+            pspsc=False
+
+        if "mex" in spacecraft:
+            mexsc=True
+        else:
+            mexsc=False
 
         print(f"Spacecraft selected: {spacecraft}")
 
@@ -177,7 +192,7 @@ if __name__=="__main__":
 
     # Wind Spacecraft LOCAL DATA ON or OFF
     wind_local = True
-    if wind_local == True:
+    if wind_local is True:
         w_loc_file_RAD1 = f"{local_data_dir}/wind_data/waves/wi_wa_rad1_l2_60s_20211204_v01.dat"    # PATH to wind data
         w_loc_file_RAD2 = f"{local_data_dir}/wind_data/waves/wi_wa_rad2_l2_60s_20211204_v01.dat"    # PATH to wind data
 
@@ -251,7 +266,7 @@ if __name__=="__main__":
     " Obtain DYNAMIC SPECTRA "
     # ----------------------------------------- #
     if windsc:
-        if wind_local == True:
+        if wind_local is True:
             print("Loading Wind Spectrogram LOCALLY")
             print("----------")
             # Waves RAD 1 ( low freqs)
@@ -415,15 +430,15 @@ if __name__=="__main__":
     # ----------------------------------------- #
     ""
     #  FREQUENCY RANGES
-    if leadingedge == True:
+    if leadingedge is True:
         freqlimmin_LE = 0.5 # 0.18
         freqlimmax_LE = 10
         freqlims_LE = [freqlimmin_LE, freqlimmax_LE]
-    if backbone == True:
+    if backbone is True:
         freqlimmin_BB = 0.14  # 0.18
         freqlimmax_BB = 15
         freqlims_BB = [freqlimmin_BB, freqlimmax_BB]
-    if trailingedge == True:
+    if trailingedge is True:
         freqlimmin_TE = 0.4  # 0.18
         freqlimmax_TE = 3
         freqlims_TE = [freqlimmin_TE, freqlimmax_TE]
@@ -528,7 +543,7 @@ if __name__=="__main__":
     print("Manual lightcurve data selection. \n ---------- \n")
     freqs_manual = np.logspace(np.log10(freq4trimin), np.log10(freq4trimax), num=10)
     # -------------------------   LEADING EDGE -----------------------------------------  #
-    if leadingedge == True:
+    if leadingedge is True:
         if windsc:
             # WAVES low
             # waves_risetimes_l_LE =[]
@@ -684,7 +699,7 @@ if __name__=="__main__":
             mex_riseval_h_LE = []
             mex_testfreq_h_LE =  np.logspace(np.log10(0.5), np.log10(4.5), num=10)
     # -------------------------   Backbone -----------------------------------------  #
-    if backbone == True:
+    if backbone is True:
         if windsc:
             # WAVES low
             waves_risetimes_l_BB =[]
@@ -742,7 +757,7 @@ if __name__=="__main__":
             mex_riseval_h_BB = []
             mex_testfreq_h_BB = []
     # -------------------------   Trailing EDGE -----------------------------------------  #
-    if trailingedge == True:
+    if trailingedge is True:
         if windsc:
             # WAVES low
             waves_risetimes_l_TE =[]
@@ -806,7 +821,7 @@ if __name__=="__main__":
     # ---------------------------------------------------------------- #
     fitfreqs = np.logspace(np.log10(freqfitmin), np.log10(freqfitmax), num=50)
     freqs4tri = np.logspace(np.log10(freq4trimin), np.log10(freq4trimax), num=50)
-    if leadingedge == True:
+    if leadingedge is True:
         print("Leading edge fitting. \n ---------- \n")
 
 
@@ -870,7 +885,7 @@ if __name__=="__main__":
         print("Leading edge fitting. DONE. \n ---------- \n")
 
     # BACKBONE
-    if backbone == True:
+    if backbone is True:
         print("Leading edge fitting. \n ---------- \n")
 
         if windsc:
@@ -936,7 +951,7 @@ if __name__=="__main__":
         print("Leading edge fitting. DONE. \n ---------- \n")
 
     # TRAILING EDGE
-    if trailingedge == True:
+    if trailingedge is True:
         print("Leading edge fitting. \n ---------- \n")
 
         if windsc:
@@ -1019,7 +1034,7 @@ if __name__=="__main__":
             waves_spec_hfr.plot(axes=axes, norm=LogNorm(vmin=waves_mm_h[0], vmax=waves_mm_h[1]), cmap=my_cmap)
 
         # LEADING EDGE
-        if leadingedge == True:
+        if leadingedge is True:
             # axes.plot(waves_risetimes_l_LE, waves_testfreq_l_LE, 'k*')
             # axes.plot(waves_risetimes_h_LE, waves_testfreq_h_LE, 'k*')
             axes.plot(wavesrisetimes_LE, wavestestfreq_LE, 'k*')
@@ -1030,7 +1045,7 @@ if __name__=="__main__":
             # axes.plot(fittimes_corrected_rpw_LE, fitfreqs_rpw_LE, "k--")
             # axes.plot(fittimes_corrected_rpw_LE, fitfreqs_rpw_LE, "y--")
         # BACKBONE
-        if backbone == True:
+        if backbone is True:
             # axes.plot(waves_risetimes_l_BB, waves_testfreq_l_BB, 'k*')
             # axes.plot(waves_risetimes_h_BB, waves_testfreq_h_BB, 'k*')
             axes.plot(wavesrisetimes_BB, wavestestfreq_BB, 'k*')
@@ -1038,7 +1053,7 @@ if __name__=="__main__":
             axes.plot(fittimes_corrected_waves_BB, fitfreqs_waves_BB, "y--")
 
         # TRAILING EDGE
-        if trailingedge == True:
+        if trailingedge is True:
             # axes.plot(waves_risetimes_l_TE, waves_testfreq_l_TE, 'k*')
             # axes.plot(waves_risetimes_h_TE, waves_testfreq_h_TE, 'k*')
             axes.plot(wavesrisetimes_TE, wavestestfreq_TE, 'k*')
@@ -1072,17 +1087,17 @@ if __name__=="__main__":
             swaves_a_spec_hfr.plot(axes=axes, norm=LogNorm(vmin=swaves_a_mm_h[0], vmax=swaves_a_mm_h[1]), cmap=my_cmap)
 
         # LEADING EDGE
-        if leadingedge == True:
+        if leadingedge is True:
             axes.plot(swaves_a_risetimes_h_LE, swaves_a_testfreq_h_LE,  'ro', markeredgecolor="w")
             axes.plot(fittimes_corrected_swaves_a_LE, fitfreqs_swaves_a_LE, "k--")
 
         # BACKBONE
-        if backbone == True:
+        if backbone is True:
             axes.plot(swaves_a_risetimes_h_BB, swaves_a_testfreq_h_BB, 'r*')
             axes.plot(fittimes_corrected_swaves_a_BB, fitfreqs_swaves_a_BB, "k--")
 
         # TRAILING EDGE
-        if trailingedge == True:
+        if trailingedge is True:
             axes.plot(swaves_a_risetimes_h_TE, swaves_a_testfreq_h_TE, 'r*')
             axes.plot(fittimes_corrected_swaves_a_TE, fitfreqs_swaves_a_TE, "k--")
 
@@ -1102,17 +1117,17 @@ if __name__=="__main__":
             # swaves_a_POL_lfr.plot(axes=axes, norm=LogNorm(vmin=swaves_a_pol_hist_l[0], vmax=swaves_a_pol_hist_l[1]), cmap=my_cmap)
 
             # # LEADING EDGE
-            # if leadingedge == True:
+            # if leadingedge  is  True:
             #     axes.plot(swaves_a_risetimes_h_LE, swaves_a_testfreq_h_LE, 'ro', markeredgecolor="w")
             #     axes.plot(fittimes_corrected_swaves_a_LE, fitfreqs_swaves_a_LE, "k--")
             #
             # # BACKBONE
-            # if backbone == True:
+            # if backbone  is  True:
             #     axes.plot(swaves_a_risetimes_h_BB, swaves_a_testfreq_h_BB, 'r*')
             #     axes.plot(fittimes_corrected_swaves_a_BB, fitfreqs_swaves_a_BB, "k--")
             #
             # # TRAILING EDGE
-            # if trailingedge == True:
+            # if trailingedge  is  True:
             #     axes.plot(swaves_a_risetimes_h_TE, swaves_a_testfreq_h_TE, 'r*')
             #     axes.plot(fittimes_corrected_swaves_a_TE, fitfreqs_swaves_a_TE, "k--")
 
@@ -1148,17 +1163,17 @@ if __name__=="__main__":
         else:
             swaves_b_spec_hfr.plot(axes=axes, norm=LogNorm(vmin=swaves_b_mm_h[0], vmax=swaves_b_mm_h[1]), cmap=my_cmap)
         # LEADING EDGE
-        if leadingedge == True:
+        if leadingedge is True:
             axes.plot(swaves_b_risetimes_h_LE, swaves_b_testfreq_h_LE,  'ro', markeredgecolor="w")
             axes.plot(fittimes_corrected_swaves_b_LE, fitfreqs_swaves_b_LE, "k--")
 
         # BACKBONE
-        if backbone == True:
+        if backbone is True:
             axes.plot(swaves_b_risetimes_h_BB, swaves_b_testfreq_h_BB, 'r*')
             axes.plot(fittimes_corrected_swaves_b_BB, fitfreqs_swaves_b_BB, "k--")
 
         # TRAILING EDGE
-        if trailingedge == True:
+        if trailingedge is True:
             axes.plot(swaves_b_risetimes_h_TE, swaves_b_testfreq_h_TE, 'r*')
             axes.plot(fittimes_corrected_swaves_b_TE, fitfreqs_swaves_b_TE, "k--")
 
@@ -1184,17 +1199,17 @@ if __name__=="__main__":
             rpw_spec_hfr.plot(axes=axes, norm=LogNorm(vmin=rpw_mm_h[0], vmax=rpw_mm_h[1]), cmap=my_cmap)
 
         # LEADING EDGE
-        if leadingedge == True:
+        if leadingedge is True:
             axes.plot(rpw_risetimes_h_LE, rpw_testfreq_h_LE,  'ro', markeredgecolor="w")
             axes.plot(fittimes_corrected_rpw_LE, fitfreqs_rpw_LE, "k--")
 
         # BACKBONE
-        if backbone == True:
+        if backbone is True:
             axes.plot(rpw_risetimes_h_BB, rpw_testfreq_h_BB, 'r*')
             axes.plot(fittimes_corrected_rpw_BB, fitfreqs_rpw_BB, "k--")
 
         # TRAILING EDGE
-        if trailingedge == True:
+        if trailingedge is True:
             axes.plot(rpw_risetimes_l_TE, rpw_testfreq_l_TE, 'r*')
             axes.plot(rpw_risetimes_h_TE, rpw_testfreq_h_TE, 'r*')
             axes.plot(fittimes_corrected_rpw_TE, fitfreqs_rpw_TE, "k--")
@@ -1221,21 +1236,21 @@ if __name__=="__main__":
             rfs_spec_hfr.plot(axes=axes, norm=LogNorm(vmin=rfs_mm_h[0], vmax=rfs_mm_h[1]), cmap=my_cmap)
 
         # LEADING EDGE
-        if leadingedge == True:
+        if leadingedge is True:
             # axes.plot(rfs_risetimes_l_LE, rfs_testfreq_l_LE, 'k*')
             # axes.plot(rfs_risetimes_h_LE, rfs_testfreq_h_LE, 'k*')
             axes.plot(rfsrisetimes_LE, rfstestfreq_LE,  'ro', markeredgecolor="w")
             axes.plot(fittimes_corrected_rfs_LE, fitfreqs_rfs_LE, "k--")
 
         # BACKBONE
-        if backbone == True:
+        if backbone is True:
             # axes.plot(rfs_risetimes_l_BB, rfs_testfreq_l_BB, 'k*')
             # axes.plot(rfs_risetimes_h_BB, rfs_testfreq_h_BB, 'k*')
             axes.plot(rfsrisetimes_BB, rfstestfreq_BB, 'k*')
             axes.plot(fittimes_corrected_rfs_BB, fitfreqs_rfs_BB, "k--")
 
         # TRAILING EDGE
-        if trailingedge == True:
+        if trailingedge is True:
             # axes.plot(rfs_risetimes_l_TE, rfs_testfreq_l_TE, 'k*')
             # axes.plot(rfs_risetimes_h_TE, rfs_testfreq_h_TE, 'k*')
             axes.plot(rfsrisetimes_TE, rfstestfreq_TE, 'k*')
@@ -1259,17 +1274,17 @@ if __name__=="__main__":
             mex_spec.plot(axes=axes, norm=LogNorm(vmin=mex_mm_h[0], vmax=mex_mm_h[1]), cmap=my_cmap)
 
         # LEADING EDGE
-        if leadingedge == True:
+        if leadingedge is True:
             axes.plot(mex_risetimes_LE, mex_testfreq_LE, 'ro', markeredgecolor="w")
             axes.plot(fittimes_corrected_mex_LE, fitfreqs_mex_LE, "k--")
 
         # BACKBONE
-        if backbone == True:
+        if backbone is True:
             axes.plot(mex_risetimes_BB, mex_testfreq_BB, 'ro', markeredgecolor="w")
             axes.plot(fittimes_corrected_mex_BB, fitfreqs_mex_BB, "k--")
 
         # TRAILING EDGE
-        if trailingedge == True:
+        if trailingedge is True:
             axes.plot(mex_risetimes_TE, mex_testfreq_TE, 'ro', markeredgecolor="w")
             axes.plot(fittimes_corrected_mex_TE, fitfreqs_mex_TE, "k--")
 
@@ -1441,9 +1456,9 @@ if __name__=="__main__":
     # ---------------------------------------------------------------- #
     "Save the data"
     # ---------------------------------------------------------------- #
-    if savedata == True:
+    if savedata is True:
         typeIIIdir = t3f.mkdirectory(f"Data/TypeIII/{YYYY}_{MM:02}_{dd:02}/")
-        if leadingedge == True:
+        if leadingedge is True:
             typeIII_LE = {'Freqs': freqs4tri}  # Start with 'Freqs' key-value pair
             # Conditional assignments based on the presence of spacecraft data
             if windsc:
@@ -1465,7 +1480,7 @@ if __name__=="__main__":
             with open(savedfilepath, 'wb') as outp:
                 pickle.dump(typeIII_LE, outp, pickle.HIGHEST_PROTOCOL)
             print(f"\nSaved results: {savedfilepath}")
-        if backbone == True:
+        if backbone is True:
             typeIII_BB = {'Freqs': freqs4tri}  # Start with 'Freqs' key-value pair
             # Conditional assignments based on the presence of spacecraft data
             if windsc:
@@ -1488,7 +1503,7 @@ if __name__=="__main__":
             with open(savedfilepath, 'wb') as outp:
                 pickle.dump(typeIII_BB, outp, pickle.HIGHEST_PROTOCOL)
             print(f"\nSaved results: {savedfilepath}")
-        if trailingedge == True:
+        if trailingedge is True:
             typeIII_TE = {'Freqs': freqs4tri}  # Start with 'Freqs' key-value pair
             # Conditional assignments based on the presence of spacecraft data
             if windsc:
